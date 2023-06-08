@@ -38,9 +38,6 @@ jobs:
           
           sudo apt -y install libpython3-all-dev:arm64
           
-          wget "https://github.com/bazelbuild/bazel/releases/download/0.24.1/bazel-0.24.1-installer-linux-x86_64.sh"
-          sudo bash ./bazel-0.24.1-installer-linux-x86_64.sh
-          
           pip3 install -U --user keras_applications==1.0.8 --no-deps
           pip3 install -U --user keras_preprocessing==1.1.0 --no-deps
           pip3 install portpicker
@@ -54,6 +51,9 @@ jobs:
           cd build_tensorflow
           chmod +x build_tensorflow.sh
           for m in $targets; do 
+          source configs/$m.conf
+          wget "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh"
+          sudo bash ./bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh
           TF_PYTHON_VERSION=${{ env.TF_PYTHON_VERSION }} ./build_tensorflow.sh $m ;
           
       - name: Upload artifacts
