@@ -55,9 +55,9 @@ jobs:
           cd tensorflow-on-arm/build_tensorflow
           chmod +x build_tensorflow.sh
           for m in $targets; do 
-          source configs/$m.conf
-          wget "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh"
-          sudo bash ./bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh
+          source configs/$m.conf &&
+          wget "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh" &&
+          sudo bash ./bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh &&
           TF_PYTHON_VERSION=${{ env.TF_PYTHON_VERSION }} ./build_tensorflow.sh $m ;
           
       - name: Upload artifacts
