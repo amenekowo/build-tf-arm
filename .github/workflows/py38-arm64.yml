@@ -1,6 +1,10 @@
 name: py38-arm64
 
 on:
+  push:
+    branches:
+    - master
+    - test
   workflow_dispatch:
   
 jobs:
@@ -54,15 +58,14 @@ jobs:
           cd ${{ env.work_dir }}
           cd tensorflow-on-arm/build_tensorflow
           chmod +x build_tensorflow.sh
-          for m in $targets; do 
-          source configs/$m.conf &&
-          wget "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh" &&
-          sudo bash ./bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh &&
-          TF_PYTHON_VERSION=${{ env.TF_PYTHON_VERSION }} ./build_tensorflow.sh configs/$m.conf ;
-        
-      - name: Setup Debug Session
-        uses: csexton/debugger-action@master
-        
+          for m in $targets
+          do 
+            source configs/$m.conf
+            wget "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh"
+            sudo bash ./bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh
+            TF_PYTHON_VERSION=${{ env.TF_PYTHON_VERSION }} ./build_tensorflow.sh configs/$m.conf
+          done
+      
       - name: Upload artifacts
         uses: actions/upload-artifact@v2.2.1
         with:
