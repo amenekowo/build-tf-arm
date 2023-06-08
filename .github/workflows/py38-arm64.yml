@@ -59,7 +59,10 @@ jobs:
           wget "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh" &&
           sudo bash ./bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh &&
           TF_PYTHON_VERSION=${{ env.TF_PYTHON_VERSION }} ./build_tensorflow.sh configs/$m.conf ;
-          
+        
+      - name: Setup Debug Session
+        uses: csexton/debugger-action@master
+        
       - name: Upload artifacts
         uses: actions/upload-artifact@v2.2.1
         with:
