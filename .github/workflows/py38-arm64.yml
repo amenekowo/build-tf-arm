@@ -52,7 +52,7 @@ jobs:
       - name: Run build
         run: |
           cd ${{ env.work_dir }}
-          cd build_tensorflow
+          cd tensorflow-on-arm/build_tensorflow
           chmod +x build_tensorflow.sh
           for m in $targets; do 
           source configs/$m.conf
